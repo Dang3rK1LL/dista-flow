@@ -1,0 +1,4 @@
+type,length_m,a_max,a_brake_eff
+szemely,120,0.7,0.7
+ic,180,0.6,0.8
+teher,450,0.4,0.5

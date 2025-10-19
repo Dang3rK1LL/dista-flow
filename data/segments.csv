@@ -1,0 +1,4 @@
+from_name,to_name,length_km,speed_kmh,tracks,signalling
+Budapest-Keleti,Ferencváros,6.9,80,2,ETCS_L2
+Ferencváros,Budapest-Kelenföld,5.7,80,2,ETCS_L2
+Budapest-Kelenföld,Budaörs,5.7,120,2,D55
