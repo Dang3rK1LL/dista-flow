@@ -1,0 +1,13 @@
+from_name,to_name,length_km,speed_kmh,tracks,signalling
+Budapest-Keleti,Ferencváros,6.9,80,2,ETCS_L2
+Ferencváros,Budapest-Kelenföld,5.7,40,2,ETCS_L2
+Budapest-Kelenföld,Budaörs,5.7,120,2,D55
+Budaörs,Herceghalom,6.9,80,2,ETCS_L2
+Herceghalom,Bicske,5.7,40,2,ETCS_L2
+Bicske,Tatabánya,5.7,120,2,D55
+Tatabánya,Komárom,6.9,80,2,ETCS_L2
+Komárom,Almásfüzitő,5.7,40,2,ETCS_L2
+Almásfüzitő,Győr,5.7,120,2,D55
+Győr,Mosonmagyaróvár,6.9,80,2,ETCS_L2
+Mosonmagyaróvár,Hegyeshalom,5.7,40,2,ETCS_L2
+Hegyeshalom,Nickelsdorf,5.7,120,2,D55
