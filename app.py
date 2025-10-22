@@ -8,6 +8,7 @@ import pandas as pd
 import json
 import os
 import sys
+import shutil
 from pathlib import Path
 
 # Add src to path for imports
@@ -160,17 +161,31 @@ def main():
                     st.success(f"✅ Simulation completed! Generated {len(results)} train positions")
                     
                     # Export GeoJSON
-                    exporter = GeoJSONExporter(line)
+                    exporter = GeoJSONExporter()
                     
-                    # Export segments
-                    segments_geojson = exporter.segments_to_geojson()
-                    with open("railway_segments.geojson", "w") as f:
-                        json.dump(segments_geojson, f)
+                    # Export segments using the CSV file path
+                    segments_geojson_file = exporter.segments_to_geojson(Path(line_file))
                     
-                    # Export train movements
-                    movements_geojson = exporter.simulation_to_geojson(results)
-                    with open("train_movements.geojson", "w") as f:
-                        json.dump(movements_geojson, f)
+                    # Copy to root directory for easy access
+                    import shutil
+                    shutil.copy(segments_geojson_file, "railway_segments.geojson")
+                    
+                    # Export train movements - convert results to DataFrame first
+                    results_data = []
+                    for result in results:
+                        results_data.append({
+                            't': result.time,
+                            'id': result.train_id,
+                            'pos_m': result.position,
+                            'v': result.speed / 3.6,  # Convert km/h back to m/s
+                            'finished': False
+                        })
+                    
+                    results_df = pd.DataFrame(results_data)
+                    movements_geojson_file = exporter.simulation_to_geojson(results_df, Path(line_file))
+                    
+                    # Copy to root directory
+                    shutil.copy(movements_geojson_file, "train_movements.geojson")
                     
                     st.success("📊 GeoJSON files exported for Kepler.gl!")
                     
@@ -179,7 +194,7 @@ def main():
                     col_a, col_b, col_c = st.columns(3)
                     
                     with col_a:
-                        st.metric("Total Distance", f"{line.total_length:.1f} km")
+                        st.metric("Total Distance", f"{line.total_m/1000:.1f} km")
                     with col_b:
                         st.metric("Train Positions", len(results))
                     with col_c:

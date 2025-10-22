@@ -2,30 +2,16 @@
 simpy>=4.0.0
 pandas>=1.5.0
 numpy>=1.20.0
-
-# Plotting and visualization
 matplotlib>=3.5.0
-
-# Geospatial (for future GeoJSON export)
-shapely>=2.0.0
-geojson>=3.0.0
-
-# Machine learning (for future AI controllers)
-scikit-learn>=1.2.0
-xgboost>=1.6.0
-
-# Excel file reading
-openpyxl>=3.0.0
-xlrd>=2.0.0
 
 # Web scraping and HTTP requests
 requests>=2.28.0
 beautifulsoup4>=4.10.0
 
-# Interactive UI (optional)
+# Geospatial and visualization
+geojson>=3.0.0
 streamlit>=1.28.0
-plotly>=5.15.0
 
-# Reinforcement Learning (optional)
-# gymnasium>=0.29.0
+# Optional AI/ML (install if needed)
+# xgboost>=1.6.0
 # stable-baselines3>=2.0.0
