@@ -19,11 +19,15 @@ class GeoJSONExporter:
         self.output_dir = output_dir or Path("outputs")
         self.output_dir.mkdir(exist_ok=True)
         
-        # Approximate coordinates for Hungarian railway stations
-        # In production, these would come from K2 geodata or OpenStreetMap
+        # Comprehensive coordinates for Hungarian railway stations from ETCS data
         self.station_coords = {
-            # Line 1 - Budapest to Vienna border
+            # Main Budapest terminals
             "Budapest-Kelenföld": [19.0406, 47.4642],
+            "Budapest-Nyugati": [19.0566, 47.5103],
+            "Budapest-Déli": [19.0236, 47.4756],
+            "Budapest-Keleti": [19.0844, 47.5000],
+            
+            # Line 1 - Budapest to Vienna border
             "Érd": [18.9135, 47.3622],
             "Martonvásár": [18.7822, 47.3142],
             "Bicske": [18.6364, 47.4886],
@@ -34,30 +38,41 @@ class GeoJSONExporter:
             "Sopron": [16.5986, 47.6858],
             "Hegyeshalom": [17.1189, 47.8875],
             
-            # Line 30 - Budapest to Debrecen
-            "Budapest-Nyugati": [19.0566, 47.5103],
+            # Line 30 - Budapest to Debrecen  
             "Szolnok": [20.1996, 47.1735],
             "Debrecen": [21.6280, 47.5329],
+            "Püspökladány": [21.1167, 47.3167],
             
             # Line 40 - Budapest to Pécs
-            "Budapest-Déli": [19.0236, 47.4756],
             "Dombóvár": [18.1380, 46.3754],
             "Pécs": [18.2323, 46.0727],
+            "Mohács": [18.6833, 45.9833],
             
             # Line 70 - Budapest to Szeged
             "Kecskemét": [19.6914, 46.9067],
             "Szeged": [20.1472, 46.2530],
+            "Kiskunfélegyháza": [19.8500, 46.7167],
             
             # Line 80 - Budapest to Miskolc
-            "Budapest-Keleti": [19.0844, 47.5000],
             "Hatvan": [19.6833, 47.6667],
             "Miskolc": [20.7784, 48.1034],
+            "Szerencs": [21.2167, 48.1500],
+            
+            # Line 6 stations
+            "Székesfehérvár": [18.4108, 47.1926],
+            "Pusztaszabolcs": [18.7500, 47.1500],
+            
+            # Line 8 stations
+            "Békéscsaba": [21.0964, 46.6783],
+            "Gyula": [21.2833, 46.6500],
+            
+            # Line 24 stations
+            "Szombathely": [16.6231, 47.2309],
+            "Körmend": [16.6167, 47.0167],
             
             # Secondary stations
             "Veszprém": [17.9104, 47.0929],
-            "Szombathely": [16.6231, 47.2309],
             "Celldömölk": [17.1667, 47.2500],
-            "Békéscsaba": [21.0964, 46.6783],
         }
     
     def interpolate_coordinates(self, start_coord: List[float], end_coord: List[float], 
@@ -155,13 +170,13 @@ class GeoJSONExporter:
                 
                 if coords:
                     properties = {
-                        "train_id": train_id,
+                        "train_id": str(train_id),  # Convert to string for consistency
                         "time": float(row['t']),
                         "position_m": float(position_m),
                         "speed_mps": float(row['v']),
                         "speed_kmh": float(row['v'] * 3.6),
                         "timestamp": f"{int(row['t']//60):02d}:{int(row['t']%60):02d}",
-                        "controller_type": "ETCS" if "ETCS" in train_id else "DISTA",
+                        "controller_type": "ETCS" if "ETCS" in str(train_id) else "DISTA",
                         "finished": row.get('finished', False)
                     }
                     

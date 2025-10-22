@@ -1,0 +1,12 @@
+{
+  "last_update": "2025-10-22T22:52:29.620903",
+  "infrastructure_version": "131306",
+  "total_lines": 235,
+  "etcs_lines": 23,
+  "etcs_coverage_ratio": 0.09787234042553192,
+  "total_km": 13758.8,
+  "etcs_km": 1260.9,
+  "station_coordinates": 64,
+  "data_source": "K2 EHÜSZ Enhanced",
+  "fetch_duration_seconds": 0.67
+}
