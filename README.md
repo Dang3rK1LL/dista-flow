@@ -4,22 +4,22 @@
 
 ## 🎯 Project Vision
 
-DISTA-Flow aims to empirically demonstrate through simulation **how much railway network capacity can be increased** when ETCS fixed safety margins are replaced by dynamic, AI-assisted train following logic.
+DISTA-Flow is a railway simulation framework for studying train following algorithms and their impact on railway operations. The project compares traditional ETCS-based approaches with alternative control strategies.
 
-**Goal**: Provide quantitative evidence that AI-driven adaptive train spacing (DISTA) can significantly improve throughput compared to traditional ETCS baseline operations, using real Hungarian railway topology data.
+**Goal**: Develop and analyze different train control methodologies using simulation on Hungarian railway network data.
 
 ## 🧩 Architecture Overview
 
 ```
-ETCS Baseline          vs.          DISTA AI-Enhanced
+ETCS Baseline          vs.          Alternative Approach
 ┌─────────────────┐                ┌─────────────────┐
-│ Fixed margins   │                │ Dynamic margins │
-│ Static reaction │       →        │ Predictive AI   │
-│ Conservative    │                │ Optimized flow  │
+│ Standard logic  │                │ Modified logic  │
+│ Fixed parameters│       →        │ Adaptive params │
+│ Traditional     │                │ Research-based  │
 └─────────────────┘                └─────────────────┘
       ↓                                     ↓
- Lower capacity                      Higher capacity
- Larger headways                     Smaller headways
+    Baseline                        Experimental
+   Performance                       Performance
 ```
 
 ## 🚀 Quick Start
@@ -50,29 +50,29 @@ python tools/convert_k2_to_segments.py
 ### Run MVP Scenarios
 
 ```powershell
-# Quick comparison: ETCS vs DISTA with 3 trains
+# Quick comparison: Baseline vs Alternative approach with 3 trains
 python run_mvp.py
 # → Generates: outputs/time_distance_*.png
 
-# Detailed KPI analysis with headway distributions
+# Detailed analysis with performance distributions
 python run_kpi.py
 # → Generates: outputs/headway_*.png
-# → Console: Average headway and throughput metrics
+# → Console: Performance metrics and statistics
 
 # Parameter sweep across reaction times, margins, train counts
 python run_sweep.py
 # → Generates: outputs/sweep_summary.csv, outputs/sweep_analysis.png
 ```
 
-## 📊 Expected Results (MVP)
+## 📊 Simulation Capabilities
 
-Based on the current mathematical model:
+The framework enables comparison of different control approaches:
 
-| Metric | ETCS Baseline | DISTA AI | Improvement |
-|--------|---------------|----------|-------------|
-| Avg Headway | ~1088m | ~959m | **~12% reduction** |
-| Throughput | Baseline | Higher | **10-15% increase** |
-| Safety | Conservative | Optimized | Maintained |
+| Aspect | Baseline Method | Alternative Method | Analysis |
+|--------|-----------------|-------------------|----------|
+| Following Distance | Standard calculation | Modified approach | Comparative study |
+| System Response | Traditional timing | Adjusted parameters | Performance metrics |
+| Safety Margins | Conservative | Research-based | Maintained standards |
 
 ## 🗂 Project Structure
 
@@ -85,16 +85,16 @@ dista-flow/
 ├── src/
 │   ├── model.py              # Line topology & speed limits
 │   ├── train.py              # Train physics & state
-│   ├── controllers.py        # ETCS vs DISTA algorithms
+│   ├── controllers.py        # Control algorithms (baseline & alternative)
 │   ├── sim.py                # Discrete-time simulation engine
-│   ├── metrics.py            # KPI calculations (headway, throughput)
-│   ├── plots.py              # Time-distance & headway visualizations
-│   └── export_geo.py         # Future: GeoJSON for Kepler.gl
+│   ├── metrics.py            # Performance calculations
+│   ├── plots.py              # Visualization tools
+│   └── export_geo.py         # Geographic data export
 ├── tools/
 │   └── convert_k2_to_segments.py  # VPE K2 → CSV converter
 ├── outputs/                  # Generated plots & results
-├── run_mvp.py               # Quick ETCS vs DISTA demo
-├── run_kpi.py               # Detailed KPI analysis
+├── run_mvp.py               # Quick comparative demo
+├── run_kpi.py               # Detailed performance analysis
 ├── run_sweep.py             # Parameter space exploration
 └── test_basic.py            # Unit tests
 ```
@@ -113,26 +113,24 @@ dista-flow/
 
 ## 🤖 AI Evolution Roadmap
 
-### Phase 1: Mathematical Model (✅ Current)
+### Phase 1: Mathematical Models (✅ Current)
 ```python
-# ETCS: Fixed safety distance
-d_safe = v²/(2*a_brake) + reaction_time*v + fixed_margin
-
-# DISTA: Reduced margins with intelligent prediction
-d_safe = v²/(2*a_brake) + dynamic_reaction*v + adaptive_margin
+# Baseline approach: Standard calculations
+# Alternative approach: Modified parameters and logic
+# Both implemented for comparative analysis
 ```
 
-### Phase 2: Machine Learning (🔄 Next)
+### Phase 2: Advanced Methods (🔄 Research)
 ```python
-# XGBoost/LightGBM model predicting optimal following distance
-features = [speed, acceleration, leader_speed, track_grade, weather]
-d_safe = ai_model.predict(features)
+# Investigating different algorithmic approaches
+# Data-driven optimization techniques
+# Performance enhancement strategies
 ```
 
-### Phase 3: Real-time Optimization (🎯 Future)
-- Multi-train coordination
-- Traffic flow optimization
-- Predictive maintenance integration
+### Phase 3: System Integration (🎯 Future)
+- Multi-agent coordination
+- System-wide optimization
+- Advanced control strategies
 
 ## 📈 Key Performance Indicators
 
@@ -170,14 +168,14 @@ python run_sweep.py
 ## 📚 Research Applications
 
 ### Academic Use Cases
-- **TDK/OTDK Projects**: Railway capacity optimization research
-- **Transportation Engineering**: AI in rail traffic management
-- **Operations Research**: Multi-agent system optimization
+- **Student Research Projects**: Transportation systems analysis
+- **Engineering Studies**: Railway operations research
+- **System Analysis**: Multi-agent simulation studies
 
-### Industry Relevance
-- **MÁV-Rail**: Hungarian railway capacity planning
-- **EU-Rail**: European railway digitalization initiatives
-- **ETCS Evolution**: Next-generation train control systems
+### Research Areas
+- Railway operations optimization
+- Transportation system modeling
+- Control system comparative analysis
 
 ## 🎨 Visualization Examples
 
@@ -244,10 +242,10 @@ MIT License - see LICENSE file for details.
 
 ## 🎯 Project Goals Summary
 
-> **"Demonstrate that AI-assisted train spacing can increase railway capacity by 10-30% while maintaining safety, using empirical simulation on real Hungarian railway topology."**
+> **"Develop a comprehensive railway simulation framework for comparative analysis of train control methodologies using Hungarian railway network data."**
 
 ---
 
 **Built with** 🐍 Python | 📊 Pandas/NumPy | 🎨 Matplotlib | 🚄 SimPy
 
-**Research Focus**: Railway Capacity Optimization • AI in Transportation • ETCS Evolution
+**Research Focus**: Railway Operations Research • Transportation System Modeling • Control Algorithm Analysis
