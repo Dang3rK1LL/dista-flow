@@ -1,9 +1,29 @@
 import pandas as pd
+import os
+from pathlib import Path
 from src.model import Line
 from src.train import TrainState
 from src.controllers import EtcsBaseline, DistaAI_Simple
 from src.sim import run_sim
 from src.plots import time_distance
+
+# Create outputs directory
+os.makedirs('outputs', exist_ok=True)
+
+# Load data with fallback logic: try mav1.csv first, then demo files
+data_options = ['data/segments_mav1.csv', 'data/segments_long.csv', 'data/segments.csv']
+segments_file = None
+for f in data_options:
+    if Path(f).exists():
+        segments_file = f
+        break
+
+if not segments_file:
+    raise FileNotFoundError("No segments data file found! Try running tools/convert_k2_to_segments.py first.")
+
+print(f"Using data file: {segments_file}")
+segments = pd.read_csv(segments_file)
+line = Line(segments)
 
 # ===== ETCS baseline =====
 etcs_trains = [

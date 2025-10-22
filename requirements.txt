@@ -1,8 +1,19 @@
-simpy
-pandas
-numpy
-matplotlib
-shapely
-geojson
-scikit-learn
-xgboost
+# Core simulation and data processing
+simpy>=4.0.0
+pandas>=1.5.0
+numpy>=1.20.0
+
+# Plotting and visualization
+matplotlib>=3.5.0
+
+# Geospatial (for future GeoJSON export)
+shapely>=2.0.0
+geojson>=3.0.0
+
+# Machine learning (for future AI controllers)
+scikit-learn>=1.2.0
+xgboost>=1.6.0
+
+# Excel file reading
+openpyxl>=3.0.0
+xlrd>=2.0.0

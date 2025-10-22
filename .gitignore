@@ -1,5 +1,37 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Outputs and results
 outputs/
+*.png
+*.csv
+
+# Jupyter
 *.ipynb_checkpoints
+.ipynb_checkpoints/
+
+# Data files (optional - remove if you want to track demo data)
+# data/
+# *.xls
+# *.xlsx
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
