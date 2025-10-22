@@ -9,8 +9,8 @@ from src.plots import headway_hist
 
 os.makedirs('outputs', exist_ok=True)
 
-# Load data with fallback logic: try mav1.csv first, then demo files
-data_options = ['data/segments_mav1.csv', 'data/segments_long.csv', 'data/segments.csv']
+# Load data with K2 integration
+data_options = ['data/etcs_enabled.csv', 'data/k2_all_lines.csv', 'data/segments_mav1.csv', 'data/segments_long.csv', 'data/segments.csv']
 segments_file = None
 for f in data_options:
     if Path(f).exists():
