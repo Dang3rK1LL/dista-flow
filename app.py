@@ -16,14 +16,15 @@ sys.path.append(str(Path(__file__).parent / "src"))
 
 from src.data.k2_fetcher import K2DataFetcher
 from src.visualization.geojson_exporter import GeoJSONExporter
-from model import Line
-from sim import run_sim
-from train import TrainState
-from controllers import DistaAI_Simple
+from src.model import Line
+from src.sim import run_sim
+from src.train import TrainState
+from src.controllers import DistaAI_Simple
+from src.braking import StandardTrainTypes, RailCondition
 
 # Try to import AI controllers, fallback to simple if not available
 try:
-    from controllers.ai_controllers import create_controller
+    from src.controllers.ai_controllers import create_controller
     AI_AVAILABLE = True
 except ImportError:
     AI_AVAILABLE = False
@@ -317,12 +318,38 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-def simulate_trains(line, num_trains, simulation_time_hours, controller):
-    """Wrapper function for running train simulation"""
-    # Create trains
+def simulate_trains(line, num_trains, simulation_time_hours, controller, train_type="modern_emu", rail_condition="dry"):
+    """Wrapper function for running train simulation with realistic braking"""
+    # Create trains with realistic braking characteristics
     trains = []
+    
+    # Map train types
+    train_type_map = {
+        "modern_emu": StandardTrainTypes.modern_emu(),
+        "ic": StandardTrainTypes.ic_train(),
+        "regional": StandardTrainTypes.regional_dmu(),
+        "freight": StandardTrainTypes.freight_train(),
+        "suburban": StandardTrainTypes.suburban_train()
+    }
+    
+    # Map rail conditions
+    rail_condition_map = {
+        "dry": RailCondition.DRY,
+        "wet": RailCondition.WET,
+        "slippery": RailCondition.SLIPPERY,
+        "icy": RailCondition.ICY
+    }
+    
+    braking_char = train_type_map.get(train_type, StandardTrainTypes.modern_emu())
+    rail_cond = rail_condition_map.get(rail_condition, RailCondition.DRY)
+    
     for i in range(num_trains):
-        train = TrainState(i, pos_m=i * 1000.0)  # Start trains 1km apart
+        train = TrainState(
+            i, 
+            pos_m=i * 1000.0,
+            braking_characteristics=braking_char,
+            rail_condition=rail_cond
+        )
         trains.append(train)
     
     # Create controller map
@@ -442,6 +469,32 @@ def main():
         num_trains = st.sidebar.slider("Number of trains:", 1, 20, 5)
         simulation_time = st.sidebar.slider("Simulation time (hours):", 1, 24, 8)
         
+        # Vonat típus választás (Realisztikus fékezés)
+        st.sidebar.subheader("🚂 Train Type (Realistic Braking)")
+        train_type = st.sidebar.selectbox(
+            "Select train type:",
+            ["modern_emu", "ic", "regional", "freight", "suburban"],
+            format_func=lambda x: {
+                "modern_emu": "Modern EMU (FLIRT) - P-fék 135%",
+                "ic": "InterCity - P-fék 110%",
+                "regional": "Regional DMU (Bzmot) - P-fék 95%",
+                "freight": "Freight Train - G-fék 65%",
+                "suburban": "Suburban Train - P-fék 120%"
+            }[x]
+        )
+        
+        # Sínállapot választás
+        rail_condition = st.sidebar.selectbox(
+            "Rail condition:",
+            ["dry", "wet", "slippery", "icy"],
+            format_func=lambda x: {
+                "dry": "☀️ Dry (μ=0.33)",
+                "wet": "🌧️ Wet (μ=0.25)",
+                "slippery": "🍂 Slippery (μ=0.15)",
+                "icy": "❄️ Icy (μ=0.08)"
+            }[x]
+        )
+        
         # Main content area
         col1, col2 = st.columns([2, 1])
         
@@ -476,7 +529,14 @@ def main():
                         controller = create_controller(controller_type)
                     
                     # Run simulation
-                    results = simulate_trains(line, num_trains, simulation_time, controller)
+                    results = simulate_trains(
+                        line, 
+                        num_trains, 
+                        simulation_time, 
+                        controller,
+                        train_type=train_type,
+                        rail_condition=rail_condition
+                    )
                     
                     # Display results
                     st.success(f"Simulation completed! Generated {len(results)} train positions")

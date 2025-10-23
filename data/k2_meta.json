@@ -1,10 +1,12 @@
 {
-  "last_checked": "2025-10-22T15:14:54.716502",
-  "current_version": "9003",
-  "last_update": "2025-10-22T15:14:54.674575",
-  "total_lines": 18,
-  "etcs_coverage_ratio": 0.611,
-  "fetch_status": "success",
-  "etcs_segments": 11,
-  "total_segments": 18
+  "last_update": "2025-10-23T19:11:24.558629",
+  "infrastructure_version": "131306",
+  "total_lines": 235,
+  "etcs_lines": 23,
+  "etcs_coverage_ratio": 0.09787234042553192,
+  "total_km": 13758.8,
+  "etcs_km": 1260.9,
+  "station_coordinates": 64,
+  "data_source": "K2 EHÜSZ Enhanced",
+  "fetch_duration_seconds": 0.69
 }

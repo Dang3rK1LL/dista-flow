@@ -19,8 +19,11 @@ def run_sim(line, trains, controller_map, dt=0.5, T=3600):
                 log.append(dict(t=env.now, id=train.id, pos_m=train.pos_m, v=train.vel, finished=True))
                 break
             
-            # Find leader (trains ahead in position)
-            potential_leaders = [t for t in trains if t.pos_m > train.pos_m and t.id != train.id]
+            # Find leader (trains ahead in position, excluding finished trains)
+            potential_leaders = [t for t in trains 
+                               if t.pos_m > train.pos_m 
+                               and t.id != train.id 
+                               and t.id not in finished_trains]
             leader = min(potential_leaders, key=lambda x: x.pos_m) if potential_leaders else None
             
             # Get desired speed from controller

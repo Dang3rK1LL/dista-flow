@@ -49,3 +49,28 @@ class Line:
             if self.cum[i] <= pos_m < self.cum[i+1]:
                 return self.segments[i].speed_mps
         return self.segments[-1].speed_mps
+    
+    def next_speed_change(self, pos_m: float) -> tuple:
+        """
+        Returns (distance_to_change, new_speed_limit) for the next speed limit change.
+        If no change ahead, returns (float('inf'), current_limit)
+        """
+        current_segment_idx = None
+        for i in range(len(self.segments)):
+            if self.cum[i] <= pos_m < self.cum[i+1]:
+                current_segment_idx = i
+                break
+        
+        if current_segment_idx is None:
+            # At or beyond end
+            return (float('inf'), self.segments[-1].speed_mps)
+        
+        # Check if there's a next segment
+        if current_segment_idx + 1 < len(self.segments):
+            next_boundary = self.cum[current_segment_idx + 1]
+            next_speed = self.segments[current_segment_idx + 1].speed_mps
+            distance_to_change = next_boundary - pos_m
+            return (distance_to_change, next_speed)
+        else:
+            # No more segments ahead
+            return (float('inf'), self.segments[current_segment_idx].speed_mps)
